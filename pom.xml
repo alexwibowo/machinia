@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.isolution</groupId>
+    <artifactId>machinia</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <inceptionYear>2013</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Alex Wibowo</name>
+            <email>alexwibowo at gee-mail dot com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <apache.commons-lang.version>2.4</apache.commons-lang.version>
+        <junit.version>4.10</junit.version>
+        <hamcrest.version>1.1</hamcrest.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${apache.commons-lang.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    
+</project>
