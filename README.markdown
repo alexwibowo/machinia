@@ -26,18 +26,21 @@ We are going to model a traffic light system. So lets start with the traffic lig
 	        super(Red.class);
 	    }
 	}
-The **@StateMachine** annotation is saying that the TrafficLight state machine  has three known states: Green, Red and Yellow. Below is what the Green state looks like:
+The **@StateMachine** annotation is saying that the TrafficLight state machine  has three known states: Green, Red and Yellow. Note that the argument to **BaseStateMachine** is the initial state of the state machine. In our example above, we set the initial state to be Red.
+
+Below is what the Red state looks like:
 
 	@StateConfiguration({
-	        @OnEvent(event =  WarnEvent.class, newState = Yellow.class),
-	        @OnEvent(event =  PanicEvent.class, newState = Red.class)
+	    @OnEvent(event =  CalmEvent.class, newState = Yellow.class),
+	    @OnEvent(event =  ClearEvent.class, newState = Green.class)
 	})
-	public class Green implements State{
+	public class Red implements State {
 	
 	    @Override
 	    public String getName() {
-	        return "Green";
+	        return "Red";
 	    }
+	
 	
 	    @Override
 	    public void onEnter() {
@@ -48,10 +51,16 @@ The **@StateMachine** annotation is saying that the TrafficLight state machine  
 	    public void onExit() {
 	        System.out.println("Exiting " + this.getClass().getName());
 	    }
-	}	
+	}
 
-The **@StateConfiguration** annotation is saying that when we are on the Green state:
+The **@StateConfiguration** annotation is saying that when we are on the Red state:
 
-   1. *WarnEvent* will cause state transition to the Yellow state
-   2. *PanicEvent* will cause state transition to the Red state 
+   1. *CalmEvent* will cause state transition to the Yellow state
+   2. *ClearEvent* will cause state transition to the Green state 
 
+
+and with those in place, lets start playing with the traffic light (see sample code for Yellow state)!
+
+    TrafficLight trafficLight = new TrafficLight();
+    trafficLight.handle(new CalmEvent()); // will cause transition to Yellow state
+    trafficLight.handle(new ClearEvent()); // will cause transition to Green state
