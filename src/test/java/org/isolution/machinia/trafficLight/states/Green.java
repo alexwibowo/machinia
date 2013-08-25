@@ -19,4 +19,14 @@ public class Green implements State{
     public String getName() {
         return "Green";
     }
+
+    @Override
+    public void onEnter() {
+        System.out.println("Entering " + this.getClass().getName());
+    }
+
+    @Override
+    public void onExit() {
+        System.out.println("Exiting " + this.getClass().getName());
+    }
 }
