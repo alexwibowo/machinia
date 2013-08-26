@@ -22,11 +22,13 @@ We are going to model a traffic light system. So lets start with the traffic lig
 		}
 	)
 	public class TrafficLight extends BaseStateMachine {	
-	    public TrafficLight() {
-	        super(Red.class);
+	    public TrafficLight(TrafficLightContext context) {
+	        super(Red.class, context);
 	    }
 	}
-The **@StateMachine** annotation is saying that the TrafficLight state machine  has three known states: Green, Red and Yellow. Note that the argument to **BaseStateMachine** is the initial state of the state machine. In our example above, we set the initial state to be Red.
+The **@StateMachine** annotation is saying that the TrafficLight state machine  has three known states: Green, Red and Yellow.
+The first argument to the **BaseStateMachine** constructor is the initial state of the state machine. In our example above, we set the initial state to be Red.
+The second argument is any implementation of **StateMachineContext**. This same *context* will be passed on to each of the method *hooks* of the states.
 
 Below is what the Red state looks like:
 
@@ -43,12 +45,12 @@ Below is what the Red state looks like:
 	
 	
 	    @Override
-	    public void onEnter() {
+	    public void onEnter(StateMachineContext stateMachineContext) {
 	        System.out.println("Entering " + this.getClass().getName());
 	    }
 	
 	    @Override
-	    public void onExit() {
+	    public void onExit(StateMachineContext stateMachineContext) {
 	        System.out.println("Exiting " + this.getClass().getName());
 	    }
 	}
@@ -61,6 +63,6 @@ The **@StateConfiguration** annotation is saying that when we are on the Red sta
 
 and with those in place, lets start playing with the traffic light (see sample code for Yellow state)!
 
-    TrafficLight trafficLight = new TrafficLight();
+    TrafficLight trafficLight = new TrafficLight(new TrafficLightContext());
     trafficLight.handle(new CalmEvent()); // will cause transition to Yellow state
     trafficLight.handle(new ClearEvent()); // will cause transition to Green state
