@@ -16,7 +16,7 @@ import org.isolution.machinia.hookfulStateMachine.states.SecondState;
 )
 public class StateMachineWithHooks extends BaseStateMachine{
 
-    public StateMachineWithHooks() {
-        super(FirstState.class);
+    public StateMachineWithHooks(HookfulStateMachineContext stateMachineContext) {
+        super(FirstState.class, stateMachineContext);
     }
 }

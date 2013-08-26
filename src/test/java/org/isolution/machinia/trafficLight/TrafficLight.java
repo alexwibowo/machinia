@@ -14,6 +14,6 @@ import org.isolution.machinia.trafficLight.states.Yellow;
 public class TrafficLight extends BaseStateMachine {
 
     public TrafficLight() {
-        super(Red.class);
+        super(Red.class, new TrafficLightContext());
     }
 }

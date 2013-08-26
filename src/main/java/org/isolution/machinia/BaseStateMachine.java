@@ -23,10 +23,16 @@ public abstract class BaseStateMachine {
      */
     private final Map<Class<? extends State>, ? extends State> allStates;
 
-    public BaseStateMachine(Class<? extends State> initialState) {
+    /**
+     * Context for this state machine
+     */
+    private StateMachineContext stateMachineContext;
+
+    public BaseStateMachine(Class<? extends State> initialState, StateMachineContext stateMachineContext) {
         StateMachine stateMachineAnnotation = this.getClass().getAnnotation(StateMachine.class);
-        allKnownStates = asList(stateMachineAnnotation.states());
-        allStates = createAllStates();
+        this.allKnownStates = asList(stateMachineAnnotation.states());
+        this.allStates = createAllStates();
+        this.stateMachineContext = stateMachineContext;
 
         validateInitialState(initialState);
         validateStateTransitionConfiguration();
@@ -66,7 +72,7 @@ public abstract class BaseStateMachine {
 
         for (OnEvent onEvent : stateConfiguration.value()) {
             if (stateWillChange(onEvent, event)) {
-                currentState.onExit();
+                currentState.onExit(this.stateMachineContext);
                 transitionToNewState(onEvent.newState());
                 break;
             }
@@ -102,7 +108,7 @@ public abstract class BaseStateMachine {
 
     private void transitionToNewState(Class<? extends State> stateClass) {
         State newState  = getState(stateClass);
-        newState.onEnter();
+        newState.onEnter(this.stateMachineContext);
         setCurrentState(newState);
     }
 

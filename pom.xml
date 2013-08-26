@@ -8,6 +8,23 @@
     <artifactId>machinia</artifactId>
     <version>1.0-SNAPSHOT</version>
     <inceptionYear>2013</inceptionYear>
+    <url>https://github.com/alexwibowo/machinia</url>
+
+    <description>
+        Machinia is a Java based finite state machine (FSM). A state machine is a mathematical model of computation used to design both computer programs and sequential logic circuits.
+
+        A state machine can be in one of a finite number of states, and the machine is only on one state at a time, referred to as the current state. State transition can occur when the machine receive a triggering event.
+    </description>
+
+    <scm>
+        <developerConnection>
+            scm:git:https://github.com/alexwibowo/machinia.git
+        </developerConnection>
+    </scm>
+
+    <ciManagement>
+        <url>https://travis-ci.org/alexwibowo/machinia</url>
+    </ciManagement>
 
     <developers>
         <developer>
@@ -19,6 +36,7 @@
     <properties>
         <apache.commons-lang.version>2.4</apache.commons-lang.version>
         <junit.version>4.10</junit.version>
+        <mockito.version>1.9.0</mockito.version>
         <hamcrest.version>1.1</hamcrest.version>
     </properties>
 
@@ -35,6 +53,14 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -56,8 +82,54 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <check>
+                        <branchRate>85</branchRate>
+                        <lineRate>85</lineRate>
+                        <haltOnFailure>true</haltOnFailure>
+                        <totalBranchRate>85</totalBranchRate>
+                        <totalLineRate>85</totalLineRate>
+                        <packageLineRate>85</packageLineRate>
+                        <packageBranchRate>85</packageBranchRate>
+                        <regexes>
+                            <regex>
+                                <pattern>org.isolution.*</pattern>
+                                <branchRate>90</branchRate>
+                                <lineRate>80</lineRate>
+                            </regex>
+                        </regexes>
+                    </check>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>clean</goal>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
 
 
 </project>

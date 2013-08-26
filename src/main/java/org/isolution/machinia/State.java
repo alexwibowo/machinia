@@ -13,10 +13,10 @@ public interface State {
     /**
      * Callback to be executed on entering this state
      */
-    void onEnter();
+    void onEnter(StateMachineContext stateMachineContext);
 
     /**
      * Callback to be executed on exiting this state
      */
-    void onExit();
+    void onExit(StateMachineContext stateMachineContext);
 }

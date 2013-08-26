@@ -3,6 +3,7 @@ package org.isolution.machinia.hookfulStateMachine.states;
 import org.isolution.machinia.OnEvent;
 import org.isolution.machinia.State;
 import org.isolution.machinia.StateConfiguration;
+import org.isolution.machinia.StateMachineContext;
 import org.isolution.machinia.hookfulStateMachine.events.TimerTickEvent;
 import org.isolution.machinia.hookfulStateMachine.events.TransitionToSecondEvent;
 
@@ -30,12 +31,12 @@ public class FirstState implements State {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(StateMachineContext stateMachineContext) {
         onEnterCount++;
     }
 
     @Override
-    public void onExit() {
+    public void onExit(StateMachineContext stateMachineContext) {
         onExitCount++;
     }
 
