@@ -8,6 +8,7 @@ import org.isolution.machinia.hookfulStateMachine.events.TransitionToSecondEvent
 import org.isolution.machinia.hookfulStateMachine.states.FirstState;
 import org.isolution.machinia.hookfulStateMachine.states.SecondState;
 import org.isolution.machinia.trafficLight.TrafficLight;
+import org.isolution.machinia.trafficLight.TrafficLightContext;
 import org.isolution.machinia.trafficLight.states.Green;
 import org.isolution.machinia.trafficLight.states.Red;
 import org.isolution.machinia.trafficLight.states.StateWithInvalidTransition;
@@ -30,7 +31,7 @@ public class StateMachineTest {
 
     @Test
     public void should_have_the_correct_initial_state() {
-        assertThat(new TrafficLight().getCurrentState(), instanceOf(Red.class));
+        assertThat(new TrafficLight(new TrafficLightContext()).getCurrentState(), instanceOf(Red.class));
     }
 
     @Test(expected = InvalidInitialStateException.class)

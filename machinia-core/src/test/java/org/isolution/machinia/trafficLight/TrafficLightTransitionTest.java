@@ -60,7 +60,7 @@ public class TrafficLightTransitionTest {
     @Test
     public void test() throws Exception {
         //given
-        TrafficLight trafficLight = new TrafficLight();
+        TrafficLight trafficLight = new TrafficLight(new TrafficLightContext());
         setCurrentStateOfTrafficLight(trafficLight, currentState);
 
         //when

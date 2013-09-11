@@ -66,3 +66,84 @@ and with those in place, lets start playing with the traffic light (see sample c
     TrafficLight trafficLight = new TrafficLight(new TrafficLightContext());
     trafficLight.handle(new CalmEvent()); // will cause transition to Yellow state
     trafficLight.handle(new ClearEvent()); // will cause transition to Green state
+
+
+Spring Integration
+==================
+Ideally we want to keep the State class as simple as possible. We want the business logic to be abstracted out from
+the State class. Perhaps in Service class, and inject this Service class into the State instance.
+
+To do this, you can use the **SpringBaseStateMachine** class from *machinia-spring* module.
+Below is an example of our TrafficLight state machine which has States with dependency to NotificationService.
+
+    @StateMachine(
+            states = { Green.class, Red.class, Yellow.class }
+    )
+    public class SpringTrafficLight extends SpringBaseStateMachine {
+
+        public SpringTrafficLight(TrafficLightContext stateMachineContext) {
+            super(Red.class, stateMachineContext);
+        }
+    }
+
+and the corresponding State.
+
+    @StateConfiguration({
+        @OnEvent(event =  CalmEvent.class, newState = Yellow.class),
+        @OnEvent(event =  ClearEvent.class, newState = Green.class)
+    })
+    public class Red implements State {
+
+        @Autowired
+        private NotificationService notificationService;
+
+        @Override
+        public String getName() {
+            return "Red";
+        }
+
+        @Override
+        public void onEnter(StateMachineContext stateMachineContext) {
+            notificationService.notify("Entering " + this.getClass().getName());
+        }
+
+        @Override
+        public void onExit(StateMachineContext stateMachineContext) {
+            notificationService.notify("Exiting " + this.getClass().getName());
+        }
+    }
+
+and we will need Spring configuration, obviously.
+
+    @Configuration
+    public class TrafficLightSpringConfig {
+
+
+        @Bean
+        @Scope("prototype")
+        public SpringTrafficLight springTrafficLight() {
+            return new SpringTrafficLight(new TrafficLightContext());
+        }
+
+
+        @Bean
+        public NotificationService notificationService() {
+            return new TrackingNotificationService();
+        }
+    }
+
+With those in place, lets have a play with our new Spring powered TrafficLight!
+
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+    context.register(TrafficLightSpringConfig.class);
+    context.refresh();
+
+    SpringTrafficLight trafficLight = context.getBean(SpringTrafficLight.class);
+    trafficLight.handle(new CalmEvent()); // will cause transition to Yellow state
+    trafficLight.handle(new ClearEvent()); // will cause transition to Green state
+
+
+
+
+
+
