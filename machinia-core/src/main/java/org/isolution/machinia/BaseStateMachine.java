@@ -21,22 +21,46 @@ public abstract class BaseStateMachine {
     /**
      * Map of all States
      */
-    private final Map<Class<? extends State>, ? extends State> allStates;
+    private Map<Class<? extends State>, ? extends State> allStates;
 
     /**
      * Context for this state machine
      */
     private StateMachineContext stateMachineContext;
 
+    protected final Class<? extends State> initialState;
+
+    /**
+     * Create new state machine and auto initialize it.
+     *
+     * @see BaseStateMachine#BaseStateMachine(Class, StateMachineContext, boolean)
+     */
     public BaseStateMachine(Class<? extends State> initialState, StateMachineContext stateMachineContext) {
+        this(initialState, stateMachineContext, true);
+    }
+
+    /**
+     *
+     * @param initialState initial state of the StateMachine
+     * @param stateMachineContext state machine context. This context instance will be passed around during state transition
+     * @param autoInitialize whether or not the state machine should be initialized. Sometimes you want to delay the state machine
+     *                       initialization. In such situation, pass in false
+     */
+    protected BaseStateMachine(Class<? extends State> initialState, StateMachineContext stateMachineContext, boolean autoInitialize) {
         StateMachine stateMachineAnnotation = this.getClass().getAnnotation(StateMachine.class);
         this.allKnownStates = asList(stateMachineAnnotation.states());
-        this.allStates = createAllStates();
         this.stateMachineContext = stateMachineContext;
-
+        this.initialState = initialState;
         validateInitialState(initialState);
         validateStateTransitionConfiguration();
 
+        if (autoInitialize) {
+            doInitialize(initialState);
+        }
+    }
+
+    final void doInitialize(Class<? extends State> initialState) {
+        this.allStates = createAllStates();
         transitionToNewState(initialState);
     }
 
@@ -118,9 +142,16 @@ public abstract class BaseStateMachine {
 
     private State createState(Class<? extends State> stateClass) {
         try {
-            return stateClass.newInstance();
+            State state = stateClass.newInstance();
+            initializeState(state);
+            return state;
         } catch (Exception e) {
             throw new RuntimeException("Unable to construct state " + stateClass, e);
         }
     }
+
+    protected void initializeState(State state) {
+        // default implementation, do nothing
+    }
+
 }

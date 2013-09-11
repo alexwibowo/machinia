@@ -8,12 +8,15 @@
     <artifactId>machinia</artifactId>
     <version>1.0-SNAPSHOT</version>
     <inceptionYear>2013</inceptionYear>
+    <packaging>pom</packaging>
     <url>https://github.com/alexwibowo/machinia</url>
 
     <description>
-        Machinia is a Java based finite state machine (FSM). A state machine is a mathematical model of computation used to design both computer programs and sequential logic circuits.
+        Machinia is a Java based finite state machine (FSM). A state machine is a mathematical model of computation used
+        to design both computer programs and sequential logic circuits.
 
-        A state machine can be in one of a finite number of states, and the machine is only on one state at a time, referred to as the current state. State transition can occur when the machine receive a triggering event.
+        A state machine can be in one of a finite number of states, and the machine is only on one state at a time,
+        referred to as the current state. State transition can occur when the machine receive a triggering event.
     </description>
 
     <scm>
@@ -37,7 +40,7 @@
         <apache.commons-lang.version>2.4</apache.commons-lang.version>
         <junit.version>4.10</junit.version>
         <mockito.version>1.9.0</mockito.version>
-        <hamcrest.version>1.1</hamcrest.version>
+        <hamcrest.version>1.3</hamcrest.version>
     </properties>
 
     <dependencies>
@@ -116,6 +119,11 @@
         </plugins>
     </build>
 
+    <modules>
+        <module>machinia-core</module>
+        <module>machinia-spring</module>
+    </modules>
+
     <reporting>
         <plugins>
             <plugin>
@@ -129,7 +137,6 @@
             </plugin>
         </plugins>
     </reporting>
-
 
 
 </project>
